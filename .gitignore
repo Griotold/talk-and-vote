@@ -1,2 +1,38 @@
+# Python (backend)
 venv/
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Node.js (frontend)
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# 환경 변수
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 로그
+*.log
+npm-debug.log*
