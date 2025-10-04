@@ -10,5 +10,8 @@ export default defineConfig({
   server: {
     port: 3000,
     host: true,
+    watch: {
+      usePolling: true, // Docker 환경에서 파일감지
+    },
   },
 })
