@@ -6,25 +6,18 @@ import MobileToggleButton from "./layout/MobileToggleButton";
 import MobileMenu from "./layout/MobileMenu";
 import Categories from "./layout/Categories";
 import AuthButtons from "./auth/DesktopAuthButtons";
+import { useAuth } from "../../hooks/useAuth";
 
-function Navbar() {
+function Navbar({onLoginClick, onSignupClick}) {
   const [isOpen, setIsOpen] = useState(false);
-  const isAuthenticated = true;
-
-  const onLoginClick = () => {
-    console.log("로그인");
-  };
-
-  const onSignupClick = () => {
-    console.log("회원가입");
-  };
+  const { logout, isAuthenticated } = useAuth();
 
   const onLogoutClick = () => {
-    console.log("로그아웃");
+    logout();
   };
 
   const onCategoryClick= (category) => {
-    console.log(category);
+    alert(category);
   };
 
   return (

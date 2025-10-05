@@ -14,7 +14,7 @@ const AvatarPlaceholder = ({ name }) => {
   );
 };
 
-const DesktopAuthButtons = ({ isAuthenticated, isOpen, setIsOpen, logout }) => {
+const DesktopAuthButtons = ({ isAuthenticated, isOpen, setIsOpen, logout, onLoginClick, onSignupClick }) => {
   return (
     <div className="hidden md:flex items-center ml-8">
       {isAuthenticated ? (
@@ -51,10 +51,14 @@ const DesktopAuthButtons = ({ isAuthenticated, isOpen, setIsOpen, logout }) => {
         </div>
       ) : (
         <div className="flex space-x-4">
-          <button className="text-white hover:bg-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-500">
+          <button 
+          onClick={onLoginClick}
+           className="text-white hover:bg-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-500">
             로그인
           </button>
-          <button className="text-emerald-500 bg-white hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition-all duration-500">
+          <button 
+          onClick={onSignupClick}
+          className="text-emerald-500 bg-white hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition-all duration-500">
             회원가입
           </button>
         </div>
