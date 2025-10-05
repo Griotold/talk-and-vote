@@ -1,13 +1,7 @@
-
+// MobileAuthButtons.tsx
 import { Link } from "react-router-dom";
 
-const MobileAuthButtons = ({
-  isAuthenticated,
-  setIsOpen,
-  onLogoutClick,
-  onLoginClick,
-  onSignupClick,
-}) => (
+const MobileAuthButtons = (isAuthenticated) => (
   <div className="pt-2 flex flex-col space-y-2 w-full">
     {isAuthenticated ? (
       <>
@@ -26,10 +20,7 @@ const MobileAuthButtons = ({
           문의하기
         </Link>
         <button
-          onClick={() => {
-            setIsOpen(false);
-            onLogoutClick();
-          }}
+          onClick={() => setIsOpen(false)}
           className="text-white hover:bg-emerald-600 block px-3 py-2 rounded-md text-base font-medium transition-all duration-500 text-left"
         >
           로그아웃
@@ -38,19 +29,13 @@ const MobileAuthButtons = ({
     ) : (
       <>
         <button
-          onClick={() => {
-            setIsOpen(false);
-            onLoginClick();
-          }}
+          onClick={() => setIsOpen(false)}
           className="text-white hover:bg-emerald-600 block px-3 py-2 rounded-md text-base font-medium transition-all duration-500 text-left"
         >
           로그인
         </button>
         <button
-          onClick={() => {
-            setIsOpen(false);
-            onSignupClick();
-          }}
+          onClick={() => setIsOpen(false)}
           className="text-white hover:bg-emerald-600 block px-3 py-2 rounded-md text-base font-medium transition-all duration-500 text-left"
         >
           회원가입

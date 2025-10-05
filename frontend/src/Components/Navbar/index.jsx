@@ -1,24 +1,30 @@
 import { useState } from "react";
 
 import Logo from "./layout/Logo";
+import SearchMenu from "./layout/SearchMenu";
 import MobileToggleButton from "./layout/MobileToggleButton";
 import MobileMenu from "./layout/MobileMenu";
+import Categories from "./layout/Categories";
 import AuthButtons from "./auth/DesktopAuthButtons";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   const onLoginClick = () => {
-    alert("로그인");
+    console.log("로그인");
   };
 
   const onSignupClick = () => {
-    alert("회원가입");
+    console.log("회원가입");
   };
 
   const onLogoutClick = () => {
-    alert("로그아웃");
+    console.log("로그아웃");
+  };
+
+  const onCategoryClick= (category) => {
+    console.log(category);
   };
 
   return (
@@ -27,6 +33,7 @@ function Navbar() {
         <div className="flex items-center justify-between h-14 md:h-20">
           <div className="flex items-center flex-1">
             <Logo />
+            <SearchMenu />
           </div>
           <MobileToggleButton
             isOpen={isOpen}
@@ -51,6 +58,8 @@ function Navbar() {
           onSignupClick={onSignupClick}
         />
       </div>
+
+      <Categories onClick={onCategoryClick} />
     </nav>
   );
 }

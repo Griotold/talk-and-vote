@@ -2,14 +2,7 @@ import { BiSearch } from "react-icons/bi";
 import SharedNavLinks from "../shared/SharedNavLinks";
 import MobileAuthButtons from "../auth/MobileAuthButtons";
 
-const MobileMenu = ({
-  isOpen,
-  setIsOpen,
-  isAuthenticated,
-  onLogoutClick,
-  onLoginClick,
-  onSignupClick,
-}) => (
+const MobileMenu = ({ isOpen, setIsOpen, isAuthenticated, logout }) => (
   <div
     className={`md:hidden transform transition-all duration-300 ease-in-out ${
       isOpen
@@ -36,13 +29,7 @@ const MobileMenu = ({
         />
       </div>
 
-      <MobileAuthButtons
-        isAuthenticated={isAuthenticated}
-        setIsOpen={setIsOpen}
-        onLogoutClick={onLogoutClick}
-        onLoginClick={onLoginClick}
-        onSignupClick={onSignupClick}
-      />
+      <MobileAuthButtons isAuthenticated={isAuthenticated} logout={logout} />
     </div>
   </div>
 );
