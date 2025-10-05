@@ -4,6 +4,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import Navbar from "./Components/Navbar";
 import LoginModal from "./Components/Modal/LoginModal";
 import SignupModal from "./Components/Modal/SignupModal";
+import Footer from "./Components/Footer/Footer";
 
 const RootLayout = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -26,8 +27,12 @@ const RootLayout = () => {
 
   return (
     <AuthProvider>
-      <Navbar onLoginClick={onLoginClick} onSignupClick={onSignupClick} />
-
+      <div className="flex flex-col min-h-screen">
+        <Navbar onLoginClick={onLoginClick} onSignupClick={onSignupClick} />
+        <main className="flex-grow container mx-auto px-4 py-8">
+        </main>
+        <Footer />
+      </div>
       <LoginModal
         isOpen={isLoginOpen}
         onClose={handleCloseModals}
