@@ -1,11 +1,34 @@
 import React, { useState } from "react";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { AuthProvider } from "./hooks/useAuth";
+import {
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./hooks/useAuth";
 import Navbar from "./Components/Navbar";
 import LoginModal from "./Components/Modal/LoginModal";
 import SignupModal from "./Components/Modal/SignupModal";
 import Footer from "./Components/Footer/Footer";
 import Main from "./Pages/Main";
+import CreateTopic from "./Pages/CreateTopic";
+import Swal from "sweetalert2";
+
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    Swal.fire({
+      icon: "warnign",
+      title: "로그인 필요",
+      text: "로그인이 필요한 서비스입니다. 로그인 후 이용해주세요.",
+      confirmButtonColor: "#10B981",
+    });
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
 
 const RootLayout = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -54,9 +77,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
+      { index: true, element: <Main /> },
       {
-        index: true,  
-        element: <Main />,
+        element: (
+          <ProtectedRoute>
+            <Outlet />
+          </ProtectedRoute>
+        ),
+        children: [{ path: "create-topic", element: <CreateTopic /> }],
       },
     ],
   },
