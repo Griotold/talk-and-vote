@@ -1,23 +1,37 @@
-import { useState } from "react";
-
+import React, { useState, useMemo } from "react"; 
 import Logo from "./layout/Logo";
-import SearchMenu from "./layout/SearchMenu";
-import MobileToggleButton from "./layout/MobileToggleButton";
+import DesktopAuthButtons from "./auth/DesktopAuthButtons";
 import MobileMenu from "./layout/MobileMenu";
+import MobileToggleButton from "./layout/MobileToggleButton";
 import Categories from "./layout/Categories";
-import AuthButtons from "./auth/DesktopAuthButtons";
+import SearchMenu from "./layout/SearchMenu";
 import { useAuth } from "../../hooks/useAuth";
+import { useSearchParams } from "react-router-dom";
 
-function Navbar({onLoginClick, onSignupClick}) {
+function Navbar({ onLoginClick, onSignupClick }) {
   const [isOpen, setIsOpen] = useState(false);
   const { logout, isAuthenticated } = useAuth();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get("search") || "";
+  const category = searchParams.get("category") || "";
 
   const onLogoutClick = () => {
     logout();
   };
 
-  const onCategoryClick= (category) => {
-    alert(category);
+  const onSearchInputChange = (e) => {
+    const updated = new URLSearchParams(searchParams);
+    updated.set("search", e.target.value);
+    updated.set("page", "1");
+    setSearchParams(updated);
+  };
+
+  const onCategoryClick = (newCategory) => {
+    const updated = new URLSearchParams(searchParams);
+    updated.set("category", newCategory === "전체" ? "" : newCategory);
+    updated.set("page", "1");
+    setSearchParams(updated);
   };
 
   return (
@@ -26,13 +40,13 @@ function Navbar({onLoginClick, onSignupClick}) {
         <div className="flex items-center justify-between h-14 md:h-20">
           <div className="flex items-center flex-1">
             <Logo />
-            <SearchMenu />
+            <SearchMenu
+              search={search}
+              onSearchInputChange={onSearchInputChange}
+            />
           </div>
-          <MobileToggleButton
-            isOpen={isOpen}
-            toggle={() => setIsOpen(!isOpen)}
-          />
-          <AuthButtons
+          <MobileToggleButton isOpen={isOpen} setIsOpen={setIsOpen} />
+          <DesktopAuthButtons
             isAuthenticated={isAuthenticated}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
@@ -46,13 +60,15 @@ function Navbar({onLoginClick, onSignupClick}) {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           isAuthenticated={isAuthenticated}
-          onLogoutClick={onLogoutClick}
           onLoginClick={onLoginClick}
+          onLogoutClick={onLogoutClick}
           onSignupClick={onSignupClick}
+          search={search}
+          onSearchInputChange={onSearchInputChange}
         />
       </div>
 
-      <Categories onClick={onCategoryClick} />
+      <Categories activeCategory={category} onClick={onCategoryClick} />
     </nav>
   );
 }

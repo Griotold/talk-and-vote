@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./hooks/useAuth";
 import Navbar from "./Components/Navbar";
 import LoginModal from "./Components/Modal/LoginModal";
 import SignupModal from "./Components/Modal/SignupModal";
 import Footer from "./Components/Footer/Footer";
+import Main from "./Pages/Main";
 
 const RootLayout = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -30,6 +31,7 @@ const RootLayout = () => {
       <div className="flex flex-col min-h-screen">
         <Navbar onLoginClick={onLoginClick} onSignupClick={onSignupClick} />
         <main className="flex-grow container mx-auto px-4 py-8">
+          <Outlet /> {/* 여기에 자식 페이지를 보여줘! */}
         </main>
         <Footer />
       </div>
@@ -51,6 +53,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    children: [
+      {
+        index: true,  
+        element: <Main />,
+      },
+    ],
   },
 ]);
 
