@@ -7,6 +7,7 @@ import Header from "./layout/Header";
 import InfoBar from "./layout/InfoBar";
 import VoteButtons from "./layout/VoteButtons";
 import Chart from "./Chart";
+import Comments from "./Comments";
 import { voteColors } from "../../constants/voteColors";
 
 const SingleTopic = () => {
@@ -87,6 +88,8 @@ const SingleTopic = () => {
         onVote={onVote}
         colors={colors}
       />
+
+      <Comments topicId={id} />
     </div>
   );
 };
