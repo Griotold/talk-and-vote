@@ -6,6 +6,7 @@ import { useVote } from "../../hooks/useVote";
 import Header from "./layout/Header";
 import InfoBar from "./layout/InfoBar";
 import VoteButtons from "./layout/VoteButtons";
+import Chart from "./Chart";
 import { voteColors } from "../../constants/voteColors";
 
 const SingleTopic = () => {
@@ -60,6 +61,8 @@ const SingleTopic = () => {
       </div>
     );
 
+    const colors = voteColors[topic.vote_options.length];
+
   return (
     <div className="mex-w-5xl mx-auto bg-white shadow-xl rounded-lg p-8 border border-gray-200">
       <Header
@@ -71,6 +74,8 @@ const SingleTopic = () => {
 
       <p className="text-gray-600 mb-6">{topic.description}</p>
 
+      <Chart topicId={id} voteOptions={topic.vote_options} />
+
       <InfoBar createdAt={topic.created_at} totalVotes={topic.total_vote} />
 
       <VoteButtons
@@ -80,7 +85,7 @@ const SingleTopic = () => {
         hasVoted={topic.has_voted}
         useVoteIndex={topic.user_vote_index}
         onVote={onVote}
-        colors={voteColors[topic.vote_options.length]}
+        colors={colors}
       />
     </div>
   );
