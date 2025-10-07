@@ -1,14 +1,16 @@
 import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTopic } from "../../hooks/useTopic";
+import { useVote } from "../../hooks/useVote";
 import Header from "./layout/Header";
 import SearchTag from "./layout/SearchTag";
 import Grid from "./layout/Grid";
 import Pagination from "./layout/Pagination";
 
-
 const Main = () => {
   const { loading, fetchTopics, countAllTopics } = useTopic();
+  const { submitVote } = useVote();
+
   const [topics, setTopics] = useState([]);
   const [totalTopics, setTotalTopics] = useState(0);
 
@@ -61,11 +63,11 @@ const Main = () => {
     const updated = new URLSearchParams(searchParams);
     updated.set("page", p);
     setSearchParams(updated);
-  }
+  };
 
   const onVote = (topic_id, index) => {
-    console.log(topic_id, index);
-  }
+    submitVote({ topicId: topic_id, voteIndex: index });
+  };
 
   return (
     <div className="w-full px-4 py-4 bg-white">
@@ -79,7 +81,6 @@ const Main = () => {
         <SearchTag search={search} onClear={onSearchClear} />
 
         <Grid topics={topics} loading={loading} onVote={onVote} />
-
 
         <Pagination
           currentPage={page}
