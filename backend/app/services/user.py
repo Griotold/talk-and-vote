@@ -5,7 +5,12 @@ from fastapi import HTTPException
 from app.db.crud import UserCrud
 from app.db.models import User
 from app.db.schemas.users import UserLogin, UserCreate
-from app.core.jwt_handler import get_password_hash,verify_password
+from app.core.jwt_handler import (
+    create_access_token,
+    create_refresh_token,
+    get_password_hash,
+    verify_password,
+)
 import logging
 
 logger = logging.getLogger(__name__)
@@ -45,5 +50,13 @@ class UserService:
         db_user = await UserCrud.get_by_email(db, user.email)
         if not db_user or not await verify_password(user.password, db_user.password):
             raise HTTPException(status_code=401, detail="잘못된 이메일 또는 비밀번호")
+        
 
-        return db_user
+        refresh_token = create_refresh_token(db_user.user_id)
+        access_token = create_access_token(db_user.user_id)
+
+        updated_user = await UserCrud.update_refresh_token_by_id(db, db_user.user_id, refresh_token)
+        await db.commit()
+        await db.refresh(updated_user)
+
+        return updated_user, access_token, refresh_token
