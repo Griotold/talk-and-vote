@@ -3,11 +3,18 @@
 from fastapi import APIRouter, Depends, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.database import get_db
-from app.core.auth import set_auth_cookies
+from app.core.auth import set_auth_cookies, get_user_id
 from app.services import UserService
 from app.db.schemas.users import UserLogin, UserRead, UserCreate
 
 router = APIRouter(prefix="/users", tags=["User"])
+
+@router.get("/me", response_model=UserRead)
+async def get_user(
+    user_id: int = Depends(get_user_id), db: AsyncSession = Depends(get_db)
+):
+    return await UserService.get_user(db, user_id)
+ 
 
 @router.post("/signup", response_model=UserRead)
 async def signup(user: UserCreate, db: AsyncSession = Depends(get_db)):

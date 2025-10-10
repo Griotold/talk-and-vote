@@ -17,6 +17,13 @@ logger = logging.getLogger(__name__)
 
 
 class UserService:
+    @staticmethod
+    async def get_user(db: AsyncSession, user_id: int) -> User:
+        db_user = await UserCrud.get_by_id(db, user_id)
+        if not db_user:
+            raise HTTPException(status_code=404, detail="User not found")
+        return db_user
+        
 
     @staticmethod
     async def signup(db: AsyncSession, user: UserCreate) -> User:
