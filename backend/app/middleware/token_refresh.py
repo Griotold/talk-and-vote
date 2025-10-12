@@ -1,8 +1,8 @@
 # pyright: reportMissingImports=false
 
-# app/middleware/token_refresh.py
 from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi import Request, Response
+from fastapi.responses import JSONResponse
 from jwt import ExpiredSignatureError, InvalidTokenError
 from app.db.database import get_db
 from app.core.jwt_handler import verify_token, create_access_token, create_refresh_token
@@ -57,8 +57,14 @@ class TokenRefreshMiddleware(BaseHTTPMiddleware):
                 # request state에 저장 (선택사항 - 라우트에서 사용 가능)
                 request.state.user_id = user_id
                 
-            except (ExpiredSignatureError, InvalidTokenError):
-                # refresh_token도 만료됨 - 로그인 필요
+            except ExpiredSignatureError:
+                # 🔴 refresh_token도 만료됨 - 401 에러 반환
+                return JSONResponse(
+                    status_code=401,
+                    content={"detail": "refresh_token_expired"}
+                )
+            except InvalidTokenError:
+                # 잘못된 토큰 - 그냥 통과 (라우트에서 처리)
                 pass
         
         # 3. 라우트 핸들러 실행

@@ -10,7 +10,7 @@ import { useAuth } from "../../../hooks/useAuth";
 
 const LoginModal = ({ isOpen, onClose, onSignupClick }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const { error, setError, login } = useAuth();
+  const { error, login } = useAuth();
 
   const handleChange = useCallback((e) => {
     setFormData((prev) => ({
@@ -22,7 +22,6 @@ const LoginModal = ({ isOpen, onClose, onSignupClick }) => {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      setError("");
 
       try {
         const success = await login(formData.email, formData.password);
@@ -33,7 +32,7 @@ const LoginModal = ({ isOpen, onClose, onSignupClick }) => {
         console.error("Login error:", err);
       }
     },
-    [formData, login, onClose, setError]
+    [formData, login, onClose]
   );
 
   return (

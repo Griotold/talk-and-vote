@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"; 
+import React, { useState, useMemo } from "react";
 import Logo from "./layout/Logo";
 import DesktopAuthButtons from "./auth/DesktopAuthButtons";
 import MobileMenu from "./layout/MobileMenu";
@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 
 function Navbar({ onLoginClick, onSignupClick }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, isAuthenticated } = useAuth();
+  const { logout, isAuthenticated, user } = useAuth();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
@@ -47,6 +47,7 @@ function Navbar({ onLoginClick, onSignupClick }) {
           </div>
           <MobileToggleButton isOpen={isOpen} setIsOpen={setIsOpen} />
           <DesktopAuthButtons
+            username={user?.username || "user"}
             isAuthenticated={isAuthenticated}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
